@@ -240,19 +240,70 @@ const pets = [
       imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
     }
   ];
- 
 
   const rootDiv = document.getElementById("root");
 
   for (let i=0; i <pets.length; i++) {
-const pet=pets[i]
-const cardString =`
-<div class="card">
-  <div class="pet-name">${pet.name}</div>
-  <div class="pet-image"><img class="img-fluid w-100" src=${pet.imageUrl}"></div>
-  <div class="pet-color">${pet.color}</div>
-  <div class="pet-type">${pet.type}</div>
+    const pet = pets[i]
+    const cardString =`
+    <div class="card">
+      <div class="pet-name">${pet.name}</div>
+      <div class="pet-image"><img class="img-fluid w-100" src=${pet.imageUrl}"></div>
+      <div class="pet-color">${pet.color}</div>
+      <div class="pet-type">${pet.type}</div>
+      <div class="pet-special-skill">${pet.specialSkill}</div>
+    </div>
+    `; 
+    rootDiv.innerHTML += cardString;
+      }
+const renderToDom = (divId, htmlToRender) => {
+  const selectedDiv = document.querySelector(divId);
+  selectedDiv.innerHTML = htmlToRender;
+}
+const cardsOnDom = (array) => {
+let domString = "";
+for (const pet of array) {
+domString += `<div class="card" style="width: 18rem;">
+<img class="card-img-top" src="${pet.imageUrl}" alt="Card image cap">
+<div class="card-body">
+  <p class="card-text">${pet.type} ${pet.name}.</p>
+
 </div>
-`; 
-rootDiv.innerHTML+=cardString;
-  }
+</div>`
+}
+ renderToDom("#root", domString);
+}; 
+  
+  const filter = (array, typeString) => {
+    const typeArray = [];
+  
+    for (const pets of array) {
+      if (pets.type === typeString) {
+        typeArray.push(pets);
+      }
+    }; //Goes through array and adds qualifying member to array
+  
+    return typeArray;
+  };
+  
+  const showOnlyCats = document.querySelector("#cats");
+  const showAllPets = document.querySelector("#allpets");
+  const showOnlyDogs = document.querySelector("#dogs");
+  const showOnlyDinos = document.querySelector("#dinos")
+  
+  showOnlyCats.addEventListener('click', () => {
+    const cats = filter(pets, "cat");
+    cardsOnDom(cats);
+  });
+  showOnlyDogs.addEventListener('click', () => {
+    const dogs = filter(pets, "dog");
+    cardsOnDom(dogs);
+  });
+  showOnlyDinos.addEventListener('click',() => {
+    const dinos = filter(pets, "dino");
+    cardsOnDom(dinos);
+  });
+
+  showAllPets.addEventListener('click',() => {
+    cardsOnDom(pets);
+  });
