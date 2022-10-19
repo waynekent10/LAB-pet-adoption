@@ -307,3 +307,49 @@ domString += `<div class="card" style="width: 18rem;">
   showAllPets.addEventListener('click',() => {
     cardsOnDom(pets);
   });
+
+  const form = document.querySelector ('form');
+  
+  const newPetMember = (event) => {
+  event.preventDefault(); //everytime you create a form you want this line. 
+  const newPetMember = {
+  id: pets.length + 1, 
+  name: document.querySelector("#name").value,
+  color: document.querySelector("#color").value,
+  specialSkill: document.querySelector("#specialSkill").value,
+  type: document.querySelector("#type").value,
+  image: document.querySelector("#image").value,
+}
+  pets.push(newPetMember);
+  cardsOnDom(pets);
+  form.reset();
+  }
+//add an event listenr for the form submit and pass it the function (callback)
+  const events =() => {
+  form.addEventListener('submit', newPetMember);
+  petsButton.addEventListener('click', () => {
+    cardsOnDom(pets);
+  });
+  favorites.addEventListener('click', () => {
+    cardsOnDom(filter(pets, "red"));
+  });
+
+const app = document.querySelector ("#root");
+app.addEventListener('click', (e) => {
+  
+  if (events.target.id.includes("delete"));{
+  const[, id] = e.target.id.split("--");
+  const index = pets.findIndex(e => e.id === Number(id));
+  pets.splice(index, 1);
+  
+  cardsOnDom(pets);
+}
+});
+
+  const startApp = () => {
+    cardsOnDom(pets);
+    events()
+  }
+
+  startApp();
+}
